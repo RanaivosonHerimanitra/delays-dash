@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <div>
       <h1 >
-        Hello dashboard
+        Impact des retards Dashboard
       </h1>
       <RetardForm />
       </div>
