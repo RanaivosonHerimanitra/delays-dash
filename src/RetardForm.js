@@ -7,6 +7,8 @@ import Pointe from './Pointe';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
+import 'semantic-ui-css/semantic.min.css';
+
 export default class RetardForm extends Component {
   constructor (props) {
     super(props)
@@ -22,20 +24,26 @@ export default class RetardForm extends Component {
   }
 
     render() {
-      return(<div class="row"><form className="form-inline">
-              <div class="col-md-4">
+      return(<div className="row"><form className="form-inline">
+              <div className="col-md-3">
               <div className="form-group">
-                 <label>Identifiant Train</label>
+                 <label>Id Train</label>
                   <TraindId />  
               </div>
               </div>
-              <div class="col-md-4">
+              <div className="col-md-3">
                  <div className="form-group">
-                   <label>Selection de date (futur ou passe)</label>
+                   <label>Date (futur ou passe)</label>
                   <DatePicker selected={this.state.startDate}  onChange={this.handleChange} />
                  </div>
               </div>
-              <div class="col-md-4">
+              <div className="col-md-3">
+                 <div className="form-group">
+                   <label>Pointe:</label>
+                   <Pointe/>
+                </div>
+              </div>
+              <div className="col-md-3">
                  <div className="form-group">
                    <button type="submit" className="btn btn-primary btn-lg">Predict</button>
                 </div>
