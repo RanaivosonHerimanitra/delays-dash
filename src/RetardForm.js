@@ -1,8 +1,6 @@
 import React,{Component} from 'react'
 import TraindId from './TrainId';
-import Mois from './Mois'
-import Transporteur from './Transporteur'
-import Ligne from './Ligne'
+
 import Pointe from './Pointe';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -13,18 +11,23 @@ export default class RetardForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      trainId: [],
+      pointe: null,
       startDate: moment()
     };
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange(date) {
     this.setState({
+    
       startDate: date
     });
   }
+  
 
     render() {
-      return(<div className="row"><form className="form-inline">
+      return(<div className="container">
+             <div className="row"><form className="form-inline">
               <div className="col-md-3">
               <div className="form-group">
                  <label>Id Train</label>
@@ -33,14 +36,15 @@ export default class RetardForm extends Component {
               </div>
               <div className="col-md-3">
                  <div className="form-group">
-                   <label>Date (futur ou passe)</label>
-                  <DatePicker selected={this.state.startDate}  onChange={this.handleChange} />
+                   <label>Date (futur ou passé)</label>
+                  <DatePicker selected={this.state.startDate}  
+                           onChange={this.handleChange} />
                  </div>
               </div>
               <div className="col-md-3">
                  <div className="form-group">
                    <label>Pointe:</label>
-                   <Pointe/>
+                   <Pointe />
                 </div>
               </div>
               <div className="col-md-3">
@@ -48,7 +52,7 @@ export default class RetardForm extends Component {
                    <button type="submit" className="btn btn-primary btn-lg">Predict</button>
                 </div>
               </div>
-           </form></div>
+           </form></div></div>
            )
 
     }
