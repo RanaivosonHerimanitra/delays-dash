@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import RetardForm from './RetardForm'
 
 class App extends Component {
-  
+
   render() {
     return (
       
@@ -10,7 +10,7 @@ class App extends Component {
          <div className="jumbotron">
            <h1>Impact des retards Dashboard</h1>
            </div>
-           <RetardForm />
+           <RetardForm  />
       </div>
       
       
