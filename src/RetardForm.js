@@ -17,7 +17,8 @@ export default class RetardForm extends Component {
       dpvalues: [],
       selected_dpvalues: null,
       pointe_selection: "AM",
-      startDate: moment()
+      startDate: moment(),
+      prediction:null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handlePointeChange = this.handlePointeChange.bind(this);
@@ -48,10 +49,37 @@ export default class RetardForm extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    //const data = new FormData(event.target);
      console.log(this.state.pointe_selection)
-     console.log(this.state.startDate)
-     console.log(this.state.selected_dpvalues)
+     console.log(this.state.startDate._d.toString())
+     let selected_dpvalues ={}
+     for (let k of this.state.selected_dpvalues ) {
+      selected_dpvalues[k]=k
+
+     }
+     console.log(selected_dpvalues)
+     
+     //ifconfig -a wlan
+     const query_url = "http://192.168.0.104:5000/predict"
+     
+    const mybody = {
+      'type_prediction':"retard-only",
+      'date':this.state.startDate._d.toString(),
+      'train':selected_dpvalues,
+      'pointe':this.state.pointe_selection
+    }
+     fetch(query_url, 
+      {
+       method: 'post',
+       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+       body: JSON.stringify(mybody) 
+      })
+     .then(r =>r.json().then(data => ({status: r.status, body: data}) ))
+     .then(obj => this.setState({ prediction:obj.body.retour_mode_nominal}) )
+     .catch( err=> console.log(err) )
+ 
 }
 handleDropdownChange =(e, {value}) => {
   this.setState({
@@ -105,7 +133,9 @@ handleDropdownChange =(e, {value}) => {
                    <button  className="btn btn-primary btn-lg">Predict</button>
                 </div>
               </div></div></div>
+              <p>{this.state.prediction}</p>
            </form>
+           
            )
 
     }
