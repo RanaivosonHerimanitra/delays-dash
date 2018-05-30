@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'semantic-ui-css/semantic.min.css';
+import LoadingSpinner from './LoadingSpinner'
 const pointe_data = {"AM":"AM","PM":"PM"}
 
 export default class RetardForm extends Component {
@@ -15,6 +16,7 @@ export default class RetardForm extends Component {
     this.state = {
       trainId: [],
       dpvalues: [],
+      loading: false,
       selected_dpvalues: null,
       pointe_selection: "AM",
       startDate: moment(),
@@ -67,6 +69,7 @@ export default class RetardForm extends Component {
       'train':selected_dpvalues,
       'pointe':this.state.pointe_selection
     }
+    this.setState({ loading: true })
      fetch(query_url, 
       {
        method: 'post',
@@ -77,7 +80,10 @@ export default class RetardForm extends Component {
        body: JSON.stringify(mybody) 
       })
      .then(r =>r.json().then(data => ({status: r.status, body: data}) ))
-     .then(obj => this.setState({ prediction:obj.body.retour_mode_nominal}) )
+     .then(obj => this.setState({ 
+       loading:false,
+       prediction:obj.body.retour_mode_nominal
+    }) )
      .catch( err=> console.log(err) )
  
 }
@@ -133,7 +139,8 @@ handleDropdownChange =(e, {value}) => {
                    <button  className="btn btn-primary btn-lg">Predict</button>
                 </div>
               </div></div></div>
-              <p>{this.state.prediction}</p>
+              {this.state.loading ? <LoadingSpinner /> :  <p>{this.state.prediction}</p> }
+             
            </form>
            
            )
