@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "holidays-nordic": "^0.1.1",
     "moment": "^2.22.1",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
