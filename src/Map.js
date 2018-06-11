@@ -1,35 +1,37 @@
 import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
+import { withGoogleMap, GoogleMap ,Polyline} from 'react-google-maps';
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+class Map extends Component {
+   
 
-class SimpleMap extends Component {
-  static defaultProps = {
-    center: {
-      lat: 59.95,
-      lng: 30.33
-    },
-    zoom: 11
-  };
+   render() {
+    const dest = [{lat:36.05298765935, lng:-112.083756616339}, 
+        {lat:36.2169884797185,lng: -112.056727493181}, ]
 
-  render() {
-    return (
-      // Important! Always set the container height explicitly
-      <div style={{ height: '100vh', width: '100%' }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyC1-WBhgmE59sTb9qpTyUaUUcX42eoMe8I"  }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
-        >
-          <AnyReactComponent
-            lat={59.955413}
-            lng={30.337844}
-            text={'Kreyser Avrora'}
-          />
-        </GoogleMapReact>
+   const GoogleMapExample = withGoogleMap(props => (
+      <GoogleMap
+        defaultCenter = { {lat:36.052, lng:-112.083} }
+        defaultZoom = { 12 }
+      >
+      <Polyline path ={dest} geodesic={false} 
+                      options={{ 
+                                strokeColor: '#ff2527',
+                              
+                                strokeWeight: 2.5
+                              }}/>
+      </GoogleMap>
+   ));
+
+   return(
+      <div>
+        <GoogleMapExample
+          containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
+          mapElement={ <div style={{ height: `100%` }} /> }
+        />
       </div>
-    );
-  }
-}
+   );
 
-export default SimpleMap;
+   }
+};
+
+export default Map;
