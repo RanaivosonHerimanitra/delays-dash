@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import RetardForm from './RetardForm'
-
 class App extends Component {
 
   render() {
@@ -11,6 +10,7 @@ class App extends Component {
            <h1>Impact des retards Dashboard</h1>
            </div>
            <RetardForm  />
+           
       </div>
       
       

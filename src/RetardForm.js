@@ -8,6 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'semantic-ui-css/semantic.min.css';
 import isHoliday from 'holidays-nordic'
 import LoadingSpinner from './LoadingSpinner'
+import SimpleMap from './Map';
 const pointe_data = {"AM":"AM","PM":"PM"}
 
 export default class RetardForm extends Component {
@@ -189,8 +190,9 @@ handleDropdownChange =(e, {value}) => {
                    <button  className="btn btn-primary btn-lg">Predict</button>
                 </div>
               </div>
+              <SimpleMap />
            </form>
-           
+          
            )
 
     }
