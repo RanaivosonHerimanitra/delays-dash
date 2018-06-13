@@ -34,17 +34,16 @@ updateData(result) {
    
 
    render() {
-
-
-
-
-     const color = [ "#30499B","#844D9E","#0091d8",
+    const markerWithDelays = require('./img/red-dot.png');
+    const markerNormal = require('./img/blue-dot.png');
+    const iconUrl = markerNormal
+    const color = [ "#30499B","#844D9E","#0091d8",
      "#136163","#72003f","#144d20","#EB7B2D"]
      //extract unique LigneID
     const ligne = [...new Set(this.state.arret.map(item => item.LigneId))]
     //extract unique ArretId
     const arret= [...new Set(this.state.arret.map(item => item.ArretId))]
-    
+    // if drawing a polyline
     const poly = ligne.map ( (l,index) => <Polyline key ={l}
                                               path ={this.state.arret.filter(x=> x.LigneId===l).map( (x) => ({lat: parseFloat(x.Latitude),lng:parseFloat( x.Longitude) }) )} 
                                               geodesic={false} 
@@ -56,7 +55,7 @@ updateData(result) {
     ) 
     
       const mymarker =  arret.map((a)=> 
-         <Marker key={a} position={mypos(a)[0]} />
+         <Marker key={a}  icon={{url:iconUrl}} position={mypos(a)[0]} />
      )
    
       
@@ -67,6 +66,7 @@ updateData(result) {
         defaultCenter = { {lat:45.3820335001678, lng:-73.6000979691623} }
         defaultZoom = { 9 } >
         {mymarker}
+        
        
      
       </GoogleMap>
