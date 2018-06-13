@@ -1,5 +1,5 @@
 
-import React,{Component} from 'react'
+import React,{Component,Fragment} from 'react'
 import TrainId_data from './TrainId_data'
 import { Dropdown } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker';
@@ -124,6 +124,7 @@ handleDropdownChange =(e, {value}) => {
 
     render() {
       return(
+        <Fragment>
         <form onSubmit={this.handleSubmit} className="form-inline">
              <div className="container">
              <div className="row">
@@ -187,11 +188,14 @@ handleDropdownChange =(e, {value}) => {
               {this.state.loading ? <LoadingSpinner /> :  <p>{this.state.prediction}</p> }
               <div className="col-md-2">
                  <div className="form-group">
-                   <button  className="btn btn-primary btn-lg">Predict</button>
+                   <button  className="btn btn-primary btn-md">Predict</button>
                 </div>
               </div>
-              <SimpleMap />
+             
            </form>
+           
+            <SimpleMap />
+            </Fragment>
           
            )
 

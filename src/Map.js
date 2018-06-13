@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withGoogleMap, GoogleMap ,Polyline} from 'react-google-maps';
+import { withGoogleMap, GoogleMap ,Polyline,Marker} from 'react-google-maps';
 import Papa from 'papaparse'
 
 class Map extends Component {
@@ -41,18 +41,33 @@ updateData(result) {
      const color = [ "#30499B","#844D9E","#0091d8",
      "#136163","#72003f","#144d20","#EB7B2D"]
      //extract unique LigneID
-    const ligne = [...new Set(this.state.arret.map(item => item.LigneId))];
-  
+    const ligne = [...new Set(this.state.arret.map(item => item.LigneId))]
+    //extract unique ArretId
+    const arret= [...new Set(this.state.arret.map(item => item.ArretId))]
+    
     const poly = ligne.map ( (l,index) => <Polyline key ={l}
                                               path ={this.state.arret.filter(x=> x.LigneId===l).map( (x) => ({lat: parseFloat(x.Latitude),lng:parseFloat( x.Longitude) }) )} 
                                               geodesic={false} 
-                                              options={{ strokeColor: color[index],strokeWeight: 1.5 }}/>
-)
+                                              options={{ strokeColor: color[index],strokeWeight: 1.5 }}
+                                            />
+                                            )
+    const mypos =(a) =>this.state.arret.filter(x=> x.ArretId===a).map( x => 
+      ({ lat:parseFloat(x.Latitude), lng:parseFloat( x.Longitude) })
+    ) 
+    
+      const mymarker =  arret.map((a)=> 
+         <Marker key={a} position={mypos(a)[0]} />
+     )
+   
+      
+     
+                                          
     const GoogleMapExample = withGoogleMap(props => (
       <GoogleMap
         defaultCenter = { {lat:45.3820335001678, lng:-73.6000979691623} }
         defaultZoom = { 9 } >
-        {poly}
+        {mymarker}
+       
      
       </GoogleMap>
    ));
