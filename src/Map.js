@@ -11,7 +11,7 @@ class Map extends Component {
 
     // Bind this to function updateData (This eliminates the error)
     this.updateData = this.updateData.bind(this);
-    // Your parse code, but not seperated in a function
+    // load latlong csv
     var csvFilePath = require("./data/arret_latlong.csv");
     Papa.parse(csvFilePath, {
       header: true,

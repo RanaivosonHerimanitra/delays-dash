@@ -1,0 +1,144 @@
+,Detail_Encoded,Detail
+0,48,Manque de puissance 
+4,65,Problème de freinage
+5,39,Indication de roue barrée
+6,29,Congestion ferroviaire
+10,68,Problème de porte 
+21,72,Problème moteur principal
+28,121,haut-parleurs
+33,71,Problème hydraulique/air
+38,28,Condition Climatique
+39,128,problème de roue
+59,137,valve de drain
+69,133,roue barrées
+77,126,patinage de roues
+87,69,Problème de roue
+90,73,Problème électrique
+97,94,TBD
+100,60,Patinage de roues
+132,13,Autre
+146,92,Système de vigilance
+162,63,Problème HEP
+210,24,Circuit de haute tension
+217,70,Problème de vigilance
+219,18,Boîte de control de freinage de la motrice (FBECU) defectueuse
+243,87,Système de communication
+263,67,Problème de porte
+271,84,Service d'urgence
+272,4,Alimentation
+295,51,Moteur
+299,21,Chargeur de batterie
+302,59,Pantographe
+309,27,Compresseur
+310,61,Porte
+311,47,Manipulateur
+320,95,Toilette
+321,54,Moteurs Diesel
+327,17,Boîte chaude
+337,1,APU
+524,66,Problème de pantographe
+604,32,Erreur humaine
+615,37,HEP
+725,131,restriction
+757,35,GPS
+759,11,Alimentation en courant continu
+761,12,Analyse en cours
+763,2,Air comprimé et freins
+765,52,Moteur Diesel principal
+767,75,Propulsion
+768,33,Exploitation
+774,64,Problème d'alimentation
+776,99,Vandalisme
+792,135,système de propulsion
+796,141,Électrique
+798,89,Système de propulsion
+802,53,Moteur de traction
+835,88,Système de contrôle et de diagnostique
+840,102,alerter
+847,9,Alimentation des systèmes auxiliaires des voitures HEP
+853,45,Loge de conduite
+860,56,Non attribué
+865,104,analyse en cours
+901,107,bogie
+919,49,Matériel de sécurité Protectio
+922,83,SO
+923,10,Alimentation en courant alternatif
+927,5,Alimentation  courant alt
+933,6,Alimentation  courant cont
+946,122,klaxon
+950,103,alimentation électrique
+963,15,Batterie
+966,101,Vigilance
+967,123,moteur
+972,127,porte
+973,79,Roue
+1000,76,Radar
+1003,42,Ligne de train
+1008,113,contrôle
+1014,31,Enregistreur
+1018,114,contrôle et diagnostique
+1051,134,securité
+1075,34,Frein
+1085,117,frein
+1136,23,Chauffage
+1150,130,relais
+1165,124,moteur Diesel principal
+1169,108,boucle
+1170,129,radar
+1184,132,roue
+1186,36,Glycol
+1203,26,Communication
+1207,110,charge
+1220,109,boyaux
+1222,50,Mode
+1224,120,fusible 25kV
+1231,55,
+1249,82,Réduction de voiture
+1281,38,HVAC
+1291,97,Transfo
+1309,98,Turbo
+1328,25,Commande
+1349,22,Chasse neige
+1421,20,Caisse
+1428,142,éclairage
+1448,46,Lumière
+1451,100,Vibration
+1462,85,Suspension
+1477,115,convertisseur
+1481,77,Radio
+1495,119,fuite
+1515,81,Réduction
+1540,57,PA
+1557,136,sécurité
+1566,19,CVAC
+1571,30,Contrôle
+1583,58,Panto
+1588,43,Loco Tracteur
+1601,116,enregistreur
+1611,44,Loge
+1627,93,Système informatique
+1638,0,?
+1643,118,freins
+1645,90,Système de signalisation
+1654,105,autre
+1664,138,vigilance
+1665,41,Intercom
+1680,86,Système d'aiguillage
+1689,139,Éclairage
+1698,78,Rideau 
+1699,96,Transfert
+1712,40,Intercirculation
+1720,125,panto
+1743,74,Prome mover
+1748,62,Prime Mover
+1758,3,Alarme
+1806,111,client
+2008,112,condition climatique
+2017,8,Alimentation des auxiliaires des locomotives et VAE
+2054,16,Bogie
+2055,7,Alimentation auxiliaires des locomotives et VAE
+2132,91,Système de toilette
+2133,140,Éclairage intérieur extérieur
+2267,80,Roues
+2279,106,autres
+2285,14,Autres

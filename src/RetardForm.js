@@ -9,7 +9,9 @@ import 'semantic-ui-css/semantic.min.css';
 import isHoliday from 'holidays-nordic'
 import LoadingSpinner from './LoadingSpinner'
 import SimpleMap from './Map';
+import Papa from 'papaparse'
 const pointe_data = {"AM":"AM","PM":"PM"}
+
 
 export default class RetardForm extends Component {
   // initialise les etats des UI:
@@ -25,13 +27,42 @@ export default class RetardForm extends Component {
       startDate: moment(),
       prediction:null,
       causes:-1,
-      commentaires:''
-    };
+      commentaires:'',
+      details: [],
+      resp: []
+    }
+    // Binding
+    this.updateDataCause = this.updateDataCause.bind(this);
+    this.updateData = this.updateData.bind(this);
+    this.handleDetailChange= this.handleDetailChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handlePointeChange = this.handlePointeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCauseChange = this.handleCauseChange.bind(this);
     this.handleComChange = this.handleComChange.bind(this);
+    var csvFilePathDetails = require("./data/details.csv");
+    Papa.parse(csvFilePathDetails, {
+      header: true,
+      download: true,
+      skipEmptyLines: true,
+      complete: this.updateData
+    })
+
+    var csvFilePathCauses= require("./data/cause_resp.csv");
+    Papa.parse(csvFilePathCauses, {
+      header: true,
+      download: true,
+      skipEmptyLines: true,
+      complete: this.updateDataCause
+    })
+  }
+  updateData(result) {
+    const data = result.data;
+    this.setState({details: data},console.log(data))
+  }
+  updateDataCause(result) {
+    const data = result.data;
+    this.setState({resp: data},console.log(data))
   }
   //quand l UI est monte alors...
   componentWillMount() {
@@ -58,6 +89,12 @@ export default class RetardForm extends Component {
     });
 
   }
+  handleDetailChange(event) {
+    this.setState({
+      selectedDetail: event.target.value
+    });
+  }
+  
   handleCauseChange(event) {
     this.setState({
     
@@ -83,7 +120,7 @@ export default class RetardForm extends Component {
      console.log(selected_dpvalues)
      
      //ifconfig -a wlan
-     const query_url = "http://10.62.73.233:5000/predict"
+     const query_url = "http://192.168.122.1:5000/predict"
      
     const mybody = {
       'type_prediction':"retard-only",
@@ -92,6 +129,7 @@ export default class RetardForm extends Component {
       'pointe':this.state.pointe_selection,
       'ferie': isHoliday(this.state.startDate,'no') ? 1 : 0,
       'causes':this.state.causes,
+      'detail':this.state.selectedDetail,
       'commentaires':this.state.commentaires
     }
     this.setState({ loading: true })
@@ -128,28 +166,28 @@ handleDropdownChange =(e, {value}) => {
         <form onSubmit={this.handleSubmit} className="form-inline">
              <div className="container">
              <div className="row">
-              <div className="col-md-2">
-              <div className="form-group">
+              
+              
                  <label>Id Train</label>
                  <Dropdown fluid selection 
                            value={this.state.selected_dpvalues}
                            multiple={true} 
-                           //search= {this.state.search}
-                           //onSearchChange={this.handleSearchChange}
                            placeholder='train'  
                            onChange={this.handleDropdownChange} 
                           options={this.state.dpvalues} 
                           disabled={false}  />
               </div>
-              </div>
-              <div className="col-md-2">
+              
+
+              <div className="row">
                  <div className="form-group">
                    <label>Date (futur ou passé)</label>
                   <DatePicker selected={this.state.startDate}  
                            onChange={this.handleChange} />
                  </div>
               </div>
-              <div className="col-md-2">
+
+              <div className="row">
                  <div className="form-group">
                    <label>Pointe:</label>
                       <select value={this.state.pointe_selection} 
@@ -161,22 +199,40 @@ handleDropdownChange =(e, {value}) => {
                 </div>
               </div>
 
-              <div className="col-md-2">
-                 <div className="form-group">
-                   <label>Causes:</label>
+              <div className="row">
+                 
+                   <label>Responsabilite:</label>
                       <select value={this.state.causes} 
                               onChange={this.handleCauseChange} 
                               className="form-control">
                         <option value ={-1}></option>
+                        {
+                          this.state.resp.map((x)=><option key ={x.Responsabilite}
+                          value ={x.causes}>{x.Responsabilite}</option>)
+                          }
                         <option value ={4}>Materiel roulant</option>
                         <option value={0}>Autres</option>
                         <option value ={2}>Exploitation</option>
                         <option value={3}>Infrastructure</option>
                         <option value={1}>Clients</option>
                       </select>
-                </div>
+                
               </div>
-              <div className="col-md-3">
+
+              <div className="row">
+                 <label>Details:</label>
+                 <select value ={this.state.selectedDetail}
+                         onChange={this.handleDetailChange} 
+                         className="form-control">
+                 <option key={-1} value ={-1}></option>
+                 {
+                   this.state.details.map((x)=><option key ={x.Detail_Encoded}
+                    value ={x.Detail_Encoded}>{x.Detail}</option>)
+                 }
+                 </select>
+              </div>
+
+              <div className="row">
                  <div className="form-group">
                    <label>Commentaires:</label>
                       <textarea onChange={this.handleComChange} value= {this.state.commentaires}></textarea>
@@ -184,17 +240,18 @@ handleDropdownChange =(e, {value}) => {
               </div>
 
              
-              </div></div>
+              </div>
               {this.state.loading ? <LoadingSpinner /> :  <p>{this.state.prediction}</p> }
-              <div className="col-md-2">
+              <div className="row">
                  <div className="form-group">
                    <button  className="btn btn-primary btn-md">Predict</button>
                 </div>
               </div>
              
            </form>
-           
+           <div className="container">
             <SimpleMap />
+            </div>
             </Fragment>
           
            )
