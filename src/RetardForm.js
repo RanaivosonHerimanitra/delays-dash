@@ -9,8 +9,10 @@ import 'semantic-ui-css/semantic.min.css';
 import isHoliday from 'holidays-nordic'
 import LoadingSpinner from './LoadingSpinner'
 import SimpleMap from './Map';
+import RetardPreditChart from './RetardPreditChart';
 import Papa from 'papaparse'
 const pointe_data = {"AM":"AM","PM":"PM"}
+
 
 
 export default class RetardForm extends Component {
@@ -32,8 +34,7 @@ export default class RetardForm extends Component {
       resp: []
     }
     // Binding
-    this.updateDataCause = this.updateDataCause.bind(this);
-    this.updateData = this.updateData.bind(this);
+  
     this.handleDetailChange= this.handleDetailChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handlePointeChange = this.handlePointeChange.bind(this);
@@ -56,11 +57,11 @@ export default class RetardForm extends Component {
       complete: this.updateDataCause
     })
   }
-  updateData(result) {
+  updateData= (result) =>{
     const data = result.data;
     this.setState({details: data},console.log(data))
   }
-  updateDataCause(result) {
+  updateDataCause = (result) =>{
     const data = result.data;
     this.setState({resp: data},console.log(data))
   }
@@ -78,10 +79,10 @@ export default class RetardForm extends Component {
     }
     this.setState({dpvalues: data})
 }
-  handlePointeChange(event) {
+  handlePointeChange= (event) =>{
     this.setState({pointe_selection: event.target.value});
   }
-  handleComChange(event) {
+  handleComChange = (event)  =>{
     event.preventDefault();
     this.setState({
     
@@ -89,7 +90,7 @@ export default class RetardForm extends Component {
     });
 
   }
-  handleDetailChange(event) {
+  handleDetailChange = (event)  =>{
     this.setState({
       selectedDetail: event.target.value
     });
@@ -163,10 +164,11 @@ handleDropdownChange =(e, {value}) => {
     render() {
       return(
         <Fragment>
+           <div className="container">
         <form onSubmit={this.handleSubmit} className="form-inline">
-             <div className="container">
-             <div className="row">
-              
+       
+            
+            
               
                  <label>Id Train</label>
                  <Dropdown fluid selection 
@@ -176,18 +178,18 @@ handleDropdownChange =(e, {value}) => {
                            onChange={this.handleDropdownChange} 
                           options={this.state.dpvalues} 
                           disabled={false}  />
-              </div>
+              
               
 
-              <div className="row">
+             
                  <div className="form-group">
                    <label>Date (futur ou passé)</label>
                   <DatePicker selected={this.state.startDate}  
                            onChange={this.handleChange} />
                  </div>
-              </div>
+              
 
-              <div className="row">
+              
                  <div className="form-group">
                    <label>Pointe:</label>
                       <select value={this.state.pointe_selection} 
@@ -197,9 +199,9 @@ handleDropdownChange =(e, {value}) => {
                         <option value={pointe_data['PM']}>PM</option>
                       </select>
                 </div>
-              </div>
+              
 
-              <div className="row">
+            
                  
                    <label>Responsabilite:</label>
                       <select value={this.state.causes} 
@@ -217,9 +219,7 @@ handleDropdownChange =(e, {value}) => {
                         <option value={1}>Clients</option>
                       </select>
                 
-              </div>
-
-              <div className="row">
+            
                  <label>Details:</label>
                  <select value ={this.state.selectedDetail}
                          onChange={this.handleDetailChange} 
@@ -230,29 +230,36 @@ handleDropdownChange =(e, {value}) => {
                     value ={x.Detail_Encoded}>{x.Detail}</option>)
                  }
                  </select>
-              </div>
+              
 
-              <div className="row">
+             {/* <div className="row">
                  <div className="form-group">
                    <label>Commentaires:</label>
                       <textarea onChange={this.handleComChange} value= {this.state.commentaires}></textarea>
                 </div>
-              </div>
+              </div>  
+                */}
 
+             {this.state.loading ? <LoadingSpinner /> :  <p>{this.state.prediction}</p> }
              
-              </div>
-              {this.state.loading ? <LoadingSpinner /> :  <p>{this.state.prediction}</p> }
-              <div className="row">
+              
+             
                  <div className="form-group">
                    <button  className="btn btn-primary btn-md">Predict</button>
                 </div>
-              </div>
+            
              
            </form>
+           </div>  {/* fin du conteneur de form */}
            <div className="container">
-            <SimpleMap />
-            </div>
-            </Fragment>
+                <div className="col-md-6">
+                    <SimpleMap />
+                </div>
+                <div className="col-md-6">
+                    <RetardPreditChart />
+                </div>
+          </div>
+    </Fragment>
           
            )
 

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@vtex/react-csv-parse": "^3.0.2",
+    "elemental": "^0.6.1",
     "holidays-nordic": "^0.1.1",
     "moment": "^2.22.1",
     "prop-types": "^15.6.1",
@@ -14,7 +15,8 @@
     "react-scripts": "1.1.4",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.80.2",
-    "symbol-observable": "^1.2.0"
+    "symbol-observable": "^1.2.0",
+    "victory": "^0.27.2"
   },
   "scripts": {
     "start": "react-scripts start",

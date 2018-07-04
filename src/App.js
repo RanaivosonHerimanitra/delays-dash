@@ -1,17 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component ,Fragment} from 'react';
 import RetardForm from './RetardForm'
 class App extends Component {
 
   render() {
     return (
       
-      <div className="container">
+      <Fragment>
+         <div className="container">
          <div className="jumbotron">
-           <h1>Impact des retards Dashboard</h1>
-           </div>
-           <RetardForm  />
+           <h2>Simulateur d'Impact des retards Dashboard</h2>
+           <p>Retour en mode nominal</p>
+        </div>
+        </div>
+        <RetardForm  />
            
-      </div>
+      </Fragment>
       
       
       
