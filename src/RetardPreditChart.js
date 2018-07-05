@@ -1,15 +1,40 @@
 import  React, { Component } from 'react';
 import { VictoryChart, VictoryLine,VictoryScatter } from 'victory';
-
+import Papa from 'papaparse'
 
 class RetardPreditChart extends Component {
     constructor() {
       super();
       this.state = {
-        interpolation: "linear",
+        interpolation: "basis",
+        train: [],
         polar: false
       };
+      // load data using paparse ==>ok
+      //charge la correspondance arret train(codeVoyage)
+     var correspondance_train_arret = require("./data/arret_train.csv");
+     Papa.parse(correspondance_train_arret, {
+       header: true,
+       download: true,
+       skipEmptyLines: true,
+       complete: this.loadTrain
+     })
+      //selection of the train ID as props
+      //update of data
     }
+    // when props from the parent RetardForm component changes,
+// trigger update in local state of Map
+componentWillReceiveProps(nextProps) {
+  console.log("updating local state of the Chart...")
+  this.setState({selected_train:nextProps.train})
+  this.setState({selected_arret: this.state.train.filter(x=> nextProps.train.indexOf(parseInt(x.CodeVoyage)) !== -1 ).map(x=>x.ArretId)})
+    
+}
+    loadTrain= (result) =>{
+      const data = result.data;
+      this.setState({train: data},console.log(data))
+    }
+     
     render() {
         const data = [
             { x: 0, y: 0 },
@@ -20,55 +45,11 @@ class RetardPreditChart extends Component {
             { x: 5, y: 5 }
           ];
           
-          const cartesianInterpolations = [
-            "basis",
-            "bundle",
-            "cardinal",
-            "catmullRom",
-            "linear",
-            "monotoneX",
-            "monotoneY",
-            "natural",
-            "step",
-            "stepAfter",
-            "stepBefore"
-          ];
-          
-          const polarInterpolations = [
-            "basis",
-            "cardinal",
-            "catmullRom",
-            "linear"
-          ];
-          
-          const InterpolationSelect = ({ currentValue, values, onChange }) => (
-            <select onChange={onChange} value={currentValue} style={{ width: 75 }}>
-              {values.map(
-                (value) => <option value={value} key={value}>{value}</option>
-              )}
-            </select>
-          );
-          
+        
       return (
-        <div>
-          <InterpolationSelect
-            currentValue={this.state.interpolation}
-            values={this.state.polar ? polarInterpolations : cartesianInterpolations }
-            onChange={(event) => this.setState({ interpolation: event.target.value })}
-          />
-          <input
-            type="checkbox"
-            id="polar"
-            value={this.state.polar}
-            onChange={
-              (event) => this.setState({
-                polar: event.target.checked,
-                interpolation: "linear"
-              })
-            }
-            style={{ marginLeft: 25, marginRight: 5 }}
-          />
-          <label htmlFor="polar">polar</label>
+        
+         
+
           <VictoryChart polar={this.state.polar} height={390}>
             <VictoryLine
               interpolation={this.state.interpolation} data={data}
@@ -79,7 +60,7 @@ class RetardPreditChart extends Component {
               style={{ data: { fill: "#c43a31" } }}
             />
           </VictoryChart>
-        </div>
+        
       );
     }
   }

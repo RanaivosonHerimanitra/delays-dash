@@ -7,10 +7,10 @@ class App extends Component {
       
       <Fragment>
          <div className="container">
-         <div className="jumbotron">
-           <h2>Simulateur d'Impact des retards Dashboard</h2>
-           <p>Retour en mode nominal</p>
-        </div>
+             <div className="jumbotron">
+                <h2>Simulateur d'Impact des retards Dashboard</h2>
+                <p>Retour en mode nominal</p>
+             </div>
         </div>
         <RetardForm  />
            

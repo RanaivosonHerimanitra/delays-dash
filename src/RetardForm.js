@@ -255,7 +255,7 @@ handleDropdownChange =(e, {value}) => {
                     <Map train ={this.state.selected_dpvalues}/>
                 </div>
                 <div className="col-md-6">
-                    <RetardPreditChart />
+                    <RetardPreditChart train ={this.state.selected_dpvalues}/>
                 </div>
           </div> {/* fin du conteneur de composantes */}
     </Fragment>
