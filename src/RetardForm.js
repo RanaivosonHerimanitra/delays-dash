@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'semantic-ui-css/semantic.min.css';
 import isHoliday from 'holidays-nordic'
 import LoadingSpinner from './LoadingSpinner'
-import SimpleMap from './Map';
+import Map from './Map';
 import RetardPreditChart from './RetardPreditChart';
 import Papa from 'papaparse'
 const pointe_data = {"AM":"AM","PM":"PM"}
@@ -24,7 +24,7 @@ export default class RetardForm extends Component {
       trainId: [],
       dpvalues: [],
       loading: false,
-      selected_dpvalues: null,
+      selected_dpvalues: [],
       pointe_selection: "AM",
       startDate: moment(),
       prediction:null,
@@ -34,19 +34,15 @@ export default class RetardForm extends Component {
       resp: []
     }
     // Binding
+        this.handleSubmit = this.handleSubmit.bind(this);
+
   
-    this.handleDetailChange= this.handleDetailChange.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handlePointeChange = this.handlePointeChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCauseChange = this.handleCauseChange.bind(this);
-    this.handleComChange = this.handleComChange.bind(this);
     var csvFilePathDetails = require("./data/details.csv");
     Papa.parse(csvFilePathDetails, {
       header: true,
       download: true,
       skipEmptyLines: true,
-      complete: this.updateData
+      complete: this.loadDetail
     })
 
     var csvFilePathCauses= require("./data/cause_resp.csv");
@@ -54,16 +50,17 @@ export default class RetardForm extends Component {
       header: true,
       download: true,
       skipEmptyLines: true,
-      complete: this.updateDataCause
+      complete: this.loadCause
     })
   }
-  updateData= (result) =>{
-    const data = result.data;
-    this.setState({details: data},console.log(data))
-  }
-  updateDataCause = (result) =>{
+ 
+  loadCause = (result) =>{
     const data = result.data;
     this.setState({resp: data},console.log(data))
+  }
+  loadDetail = (result) =>{
+    const data = result.data;
+    this.setState({details: data},console.log(data))
   }
   //quand l UI est monte alors...
   componentWillMount() {
@@ -96,13 +93,13 @@ export default class RetardForm extends Component {
     });
   }
   
-  handleCauseChange(event) {
+  handleCauseChange = (event) =>{
     this.setState({
     
       causes: event.target.value
     });
   }
-  handleChange(date) {
+  handleChange = (date) =>{
     this.setState({
     
       startDate: date
@@ -172,6 +169,7 @@ handleDropdownChange =(e, {value}) => {
               
                  <label>Id Train</label>
                  <Dropdown fluid selection 
+                  
                            value={this.state.selected_dpvalues}
                            multiple={true} 
                            placeholder='train'  
@@ -207,16 +205,17 @@ handleDropdownChange =(e, {value}) => {
                       <select value={this.state.causes} 
                               onChange={this.handleCauseChange} 
                               className="form-control">
-                        <option value ={-1}></option>
+                        <option key={-9999} value ={-1}></option>
                         {
-                          this.state.resp.map((x)=><option key ={x.Responsabilite}
+                          this.state.resp.map((x)=><option key ={x.causes}
                           value ={x.causes}>{x.Responsabilite}</option>)
                           }
-                        <option value ={4}>Materiel roulant</option>
+                       {/* <option value ={4}>Materiel roulant</option>
                         <option value={0}>Autres</option>
                         <option value ={2}>Exploitation</option>
                         <option value={3}>Infrastructure</option>
-                        <option value={1}>Clients</option>
+                        <option value={1}>Clients</option> 
+                        */}
                       </select>
                 
             
@@ -245,7 +244,7 @@ handleDropdownChange =(e, {value}) => {
               
              
                  <div className="form-group">
-                   <button  className="btn btn-primary btn-md">Predict</button>
+                   <button  className="btn btn-primary btn-lg">Predict</button>
                 </div>
             
              
@@ -253,12 +252,12 @@ handleDropdownChange =(e, {value}) => {
            </div>  {/* fin du conteneur de form */}
            <div className="container">
                 <div className="col-md-6">
-                    <SimpleMap />
+                    <Map train ={this.state.selected_dpvalues}/>
                 </div>
                 <div className="col-md-6">
                     <RetardPreditChart />
                 </div>
-          </div>
+          </div> {/* fin du conteneur de composantes */}
     </Fragment>
           
            )
