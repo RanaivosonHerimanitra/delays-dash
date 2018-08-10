@@ -8,6 +8,8 @@ class RetardPreditChart extends Component {
       this.state = {
         interpolation: "basis",
         train: [],
+        Date: [],
+        count : [],
         polar: false
       };
       // load data using paparse ==>ok
@@ -28,7 +30,25 @@ componentWillReceiveProps(nextProps) {
   console.log("updating local state of the Chart...")
   this.setState({selected_train:nextProps.train})
   this.setState({selected_arret: this.state.train.filter(x=> nextProps.train.indexOf(parseInt(x.CodeVoyage)) !== -1 ).map(x=>x.ArretId)})
-    
+  //ifconfig -a wlan
+  const query_url = "http://192.168.122.1:5000/count"
+  const mybody = {
+    'train':this.state.selected_train,
+  }
+   fetch(query_url, 
+    {
+     method: 'post',
+     headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+     body: JSON.stringify(mybody) 
+    })
+   .then(r =>r.json().then(data => ({status: r.status, body: data}) ))
+   .then(obj => this.setState({ 
+     Date:obj.body.x,
+     count: obj.body.y
+  })).catch( err=> console.log(err) )
 }
     loadTrain= (result) =>{
       const data = result.data;
@@ -36,13 +56,13 @@ componentWillReceiveProps(nextProps) {
     }
      
     render() {
-        const data = [
-            { x: 0, y: 0 },
-            { x: 1, y: 2 },
-            { x: 2, y: 1 },
-            { x: 3, y: 4 },
-            { x: 4, y: 3 },
-            { x: 5, y: 5 }
+        const data = [ this.state.Date, this.state.count
+            //{ x: 0, y: 0 },
+            //{ x: 1, y: 2 },
+            //{ x: 2, y: 1 },
+            //{ x: 3, y: 4 },
+            //{ x: 4, y: 3 },
+            //{ x: 5, y: 5 }
           ];
           
         
